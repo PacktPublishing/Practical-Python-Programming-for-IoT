@@ -1,0 +1,4 @@
+colorzero==1.1
+gpiozero==1.5.1
+paho-mqtt==1.4.0
+pigpio==1.44

@@ -1,0 +1,92 @@
+<!-- File: chapter04/mosquitto_www/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>MQTT Web Socket Example</title>
+    <script src="./jquery.min.js"></script>
+    <script src="./paho-mqtt.js"></script>                                                   <!-- (1) -->
+    <script type="text/javascript" charset="utf-8">
+
+        const CLIENT_ID = String(Math.floor(Math.random() * 10e16))                            // (2)
+        const TOPIC   = "led";                                                                 // (3)
+
+        // Web Socket MQTT Client Object.
+        const client = new Paho.Client(location.hostname, Number(location.port), CLIENT_ID);   // (4)
+
+        // Callback when client has connected to Broker.
+        onConnectionSuccess = function(data) {                                                 // (5)
+            console.log("Connected to MQTT Broker");
+            $("#connected").html("Yes");
+            $("input[type=range].brightnessLevel").attr("disabled", null);
+
+            // Receive LED level messages.                                                     // (6)
+            client.subscribe(TOPIC);
+        };
+
+        client.connect({                                                                       // (7)
+           onSuccess: onConnectionSuccess,
+           reconnect: true
+         });
+
+        // Callback when client looses it's connection to Broker.
+        client.onConnectionLost = function onConnectionLost(data) {                            // (8)
+
+            if (data.errorCode !== 0) {
+              console.log("Disconnected from Connected to MQTT Broker with error " + data.errorMessage);
+            } else {
+              console.log("Disconnected from MQTT Broker");
+            }
+
+            $("#connected").html("No");
+            $("input[type=range].brightnessLevel").attr("disabled", "true");
+        };
+
+        // Callback when a new message arrives at a subscribed topic.
+        client.onMessageArrived = function onMessageArrived(message) {                         // (9)
+
+            console.log("onMessageArrived:" + message.payloadString + " for topic " + message.destinationName);
+
+            var data = JSON.parse(message.payloadString);
+
+            if (message.destinationName === TOPIC) {
+                $("input[type=range].brightnessLevel").val(data.level);
+                $("#brightnessLevel").html(data.level);
+            }
+        }
+
+
+        $(document).ready(function() {                                                         // (10)
+
+            $("#clientId").html(CLIENT_ID);
+
+            // Event listener for Slider value changes.
+            $("input[type=range].brightnessLevel").on('input', function() {
+                level = $(this).val();
+
+                payload = {
+                    "level": level
+                 };
+
+                // Publish LED brightness.
+                var message = new Paho.Message(                                                // (11)
+                   JSON.stringify(payload)
+                );
+
+                message.destinationName = TOPIC;                                               // (12)
+                message.qos = 2;
+                message.retained = true;                                                       // (13)
+                client.send(message);
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>MQTT Web Socket Example</h1>
+    CLIENT_ID: <span id="clientId">No</span>
+    <br><br>
+    Connected to MQTT Broker: <span id="connected">No</span>
+    <br><br>
+    Brightness <span id="brightnessLevel"></span>:<br>
+    <input type="range" min="0" max="100" value="0" disabled="true" class="brightnessLevel">
+</body>
+</html>

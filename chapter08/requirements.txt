@@ -1,0 +1,14 @@
+luma.core==1.12.0
+luma.led-matrix==1.4.0
+luma.oled==3.3.0
+pigpio==1.44
+Pillow==7.1.0
+pyftdi==0.40.6
+pyserial==3.4
+pyusb==1.0.2
+rpi-ws281x==4.2.2
+RPi.GPIO==0.7.0
+rtttl==0.2
+smbus2==0.3.0
+ws2812==1.0.0
+spidev==3.4

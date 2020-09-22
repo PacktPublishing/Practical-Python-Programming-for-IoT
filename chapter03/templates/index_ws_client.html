@@ -1,0 +1,48 @@
+<!-- chapter03/templates/index_ws_client.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flask Web Socket Example</title>
+    <script src="/static/jquery.min.js"></script>
+    <script src="/static/socket.io.js"></script>                            <!-- (1) -->
+    <script type="text/javascript">
+
+        var socket = io();  // For API documentation see https://socket.io    // (2)
+
+        socket.on('connect', function() {                                     // (3)
+            console.log("Connected to Server");
+            $("#connected").html("Yes");
+        });
+
+        socket.on('disconnect', function() {                                  // (4)
+            console.log("Disconnected from the Server");
+            $("#connected").html("No");
+        });
+
+        socket.on('led', function(dataFromServer) {                           // (5)
+            console.log(dataFromServer)
+            if (dataFromServer.level !== undefined) {
+                $("input[type=range].brightnessLevel").val(dataFromServer.level);
+                $("#brightnessLevel").html(dataFromServer.level);
+            }
+        });
+
+        $(document).ready(function() {                                        // (6)
+            // Event listener for Slider value changes.
+            $("input[type=range].brightnessLevel").on('input', function(){
+                level = $(this).val();
+                payload = {"level": level};
+                socket.emit('led', payload);
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Flask Web Socket Example</h1>
+    LED is connected to GPIO {{pin}}<br>
+    Connected to server: <span id="connected">No</span>                     <!-- (7) -->
+    <br><br>
+    Brightness <span id="brightnessLevel"></span>:<br>
+    <input type="range" min="0" max="100" value="0" class="brightnessLevel">
+</body>
+</html>

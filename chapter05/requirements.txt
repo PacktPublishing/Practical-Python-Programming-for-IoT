@@ -1,0 +1,9 @@
+Adafruit-Blinka==2.4.1
+adafruit-circuitpython-ads1x15==2.1.1
+adafruit-circuitpython-busdevice==4.0.0
+Adafruit-PlatformDetect==1.3.3
+Adafruit-PureIO==0.2.3
+pigpio==1.44
+RPi.GPIO==0.7.0
+spidev==3.4
+sysv-ipc==1.0.0

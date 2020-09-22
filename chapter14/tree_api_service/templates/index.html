@@ -1,0 +1,250 @@
+<!--
+     chapter14/tree_api_service/templates/index.html
+     Simple Web App that uses RESTFul API to control IoTree.
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>IoTree Web App</title>
+
+    <style>
+        #colorBar {
+            width:100%;
+            max-width: 800px;
+            border:solid 1px silver;
+         }
+
+        #strip {
+            width: 100%;
+            height: 25px;
+            padding:2px;
+            border:solid 1px silver;
+        }
+
+        div.led {
+            display: inline-block;
+            width: 22px;
+            height: 22px;
+            border-radius:50%;
+            margin-right:2px;
+            border:solid 1px silver;
+        }
+
+        button {
+          font-size: 125%;
+          padding: 5px;
+          margin-right:10px;
+        }
+    </style>
+
+    <script src="/static/jquery.min.js"></script>
+    <script type="text/javascript">
+
+    // GET request to server to initialise control values.
+    function initState() {
+        $.get("/lights", function(response, status) {
+           console.log(response)
+           updateControls(response.state)
+        });
+    }
+
+    function updateControls(state) {
+
+        // Contrast Slider
+        $("input[type=range].contrastLevel").val(state.contrast);
+        $("#contrastLevel").html(state.contrast);
+
+        // Speed Slider
+        $("input[type=range].animationSpeed").val(state.speed);
+        $("#animationSpeed").html(state.speed);
+
+        // LED Strip Preview
+        if (state.animation != "rainbow") {
+            for (i in state.colors) {
+                var $e = $("<div class='led'></div>");
+                $e.css({
+                    "background": state.colors[i]
+                });
+
+                $("#strip").append($e);
+            }
+        }
+    }
+
+    function toHex(r, g, b) {
+
+        var r = Number(r).toString(16);
+
+        if (r.length < 2) {
+            r = "0" + r;
+        }
+
+        var g = Number(g).toString(16);
+
+        if (g.length < 2) {
+            g = "0" + g;
+        }
+
+        var b = Number(b).toString(16);
+
+        if (b.length < 2) {
+            b = "0" + b;
+        }
+
+        return "#" + r + g + b;
+    };
+
+
+     var hexArray = [];
+
+    var colorBarCtx = null;
+
+    function loadColorBar() {
+        var canvas = document.getElementById("colorBar");
+        colorBarCtx = canvas.getContext("2d");
+        var img = new Image();
+
+        img.onload = function() {
+          colorBarCtx.drawImage(this, 0, 0);
+        };
+
+        img.src = "/static/images/color-bar.png";
+    }
+
+
+    $(document).ready(function() {
+
+        loadColorBar();
+
+        //
+        // Event listener for Contrast Slider value changes.
+        //
+        $("input[type=range].contrastLevel").on('change', function() {
+            level = $(this).val();
+            $("#contrastLevel").text(level);
+            $.post("/lights/contrast", { level: level }, function(response, status) {
+                console.log(status, response)
+            });
+        });
+
+        //
+        // Event listener for Animation Slider value changes.
+        //
+        $("input[type=range].animationSpeed").on('change', function() {
+            speed = $(this).val();
+            $("#animationSpeed").text(speed);
+            $.post("/lights/animation", { speed: speed }, function(response, status) {
+                console.log(status, response)
+            });
+        });
+
+        //
+        // Color Bar Listener
+        //
+        $("#colorBar").on("click", function(e) {
+            var offset = $(this).offset();
+
+            // Click coordinates on color bar image.
+            var x = e.clientX - offset.left;
+            var y = e.clientY - offset.top;
+
+            // Get color that was clicked on.
+            var data = colorBarCtx.getImageData(x, y, 1, 1).data;
+            var hex = toHex(data[0], data[1], data[2]);
+
+            hexArray.push(hex);
+
+            var $e = $("<div class='led'></div>");
+            $e.css({
+                "background": hex
+            });
+
+            $("#strip").append($e);
+
+            $.post("/lights/color",  { colors: hex }, function(response, status) {
+                console.log(status, response)
+            });
+
+        });
+
+
+        $("#clear").on("click", function(e) {
+
+            $.post("/lights/clear", { }, function(response, status) {
+                $("#strip").empty();
+                hexArray = [];
+                console.log(status, response)
+            });
+        });
+
+
+        $("#patternFill").on("click", function(e) {
+
+            colors = hexArray.join(",")
+
+            $.post("/lights/color",  { colors: colors, pattern: "yes" }, function(response, status) {
+                console.log(status, response)
+            });
+        });
+
+
+        $("button[data-mode]").on("click", function(e) {
+            var mode = $(this).attr("data-mode");
+            var speed = $("input[type=range].animationSpeed").val();
+            $.post("/lights/animation",  { mode: mode, speed: speed }, function(response, status) {
+                console.log(status, response)
+            });
+        });
+
+
+        $("#servoSweep").on("click", function(e) {
+            $.post("/servo/sweep", { }, function(response, status) {
+                console.log(status, response)
+            });
+        });
+
+        //
+        // Initialise slider values form state on server.
+        //
+        initState()
+
+    });  // end of document.ready()
+    </script>
+</head>
+<body>
+    <h1>IoTree Web App</h1>
+    <br><br>
+
+    Contrast <span id="contrastLevel"></span>:<br>
+    <input type="range" min="0" max="255" value="0" class="contrastLevel">
+
+    <br><br>
+    Color Bar - Touch / Click a Color:<br>
+    <canvas width="800" height="75" id="colorBar"></canvas>
+    <br><br>
+
+    Light Sequence:<br>
+    <div id="strip"></div>
+    <br><br>
+
+    <button id="patternFill">Pattern Fill</button>
+
+    <button id="clear">Clear</button>
+
+    <br><br>
+    Animation Speed <span id="animationSpeed"></span>:<br>
+    <input type="range" min="1" max="10" value="5" class="animationSpeed">
+
+    <br><br>
+    Animation:<br>
+    <button data-mode="left">Left</button>
+    <button data-mode="right">Right</button>
+    <button data-mode="blink">Blink</button>
+    <button data-mode="rainbow">Rainbow</button>
+    <button data-mode="stop">Stop</button>
+
+    <br><br>
+    Servo:<br>
+    <button id="servoSweep">Sweep</button>
+</body>
+</html>
