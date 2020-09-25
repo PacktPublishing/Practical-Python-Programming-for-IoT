@@ -56,7 +56,7 @@ Flask & Flask-Restful Related Functions
 def index():
     """Make sure inde.html is in the templates folder
     relative to this Python file."""
-    return render_template('inde.html', pin=LED_GPIO_PIN)                # (9)
+    return render_template('index_api_client.html', pin=LED_GPIO_PIN)                # (9)
 
 
 # Flask-restful resource definitions.
