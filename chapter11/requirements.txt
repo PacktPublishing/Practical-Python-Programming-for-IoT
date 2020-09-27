@@ -1,9 +1,10 @@
-Adafruit-Blinka==3.3.6
+Adafruit-Blinka==5.4.0
 adafruit-circuitpython-ads1x15==2.1.1
 adafruit-circuitpython-busdevice==4.1.1
-Adafruit-PlatformDetect==1.4.1
-Adafruit-PureIO==1.0.4
+Adafruit-PlatformDetect==2.17.0
+Adafruit-PureIO==1.1.5
 pigpio==1.44
+pkg-resources==0.0.0
 pyftdi==0.42.2
 pyserial==3.4
 pyusb==1.0.2
