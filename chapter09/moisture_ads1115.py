@@ -29,12 +29,12 @@ pi.write(LED_GPIO, pigpio.LOW) # LED Off
 
 # Voltage readings from ADS1115 when
 # probe is immersed (wet), and when not immersed (dry)
-WET_VOLTS = calibration.MIN_VOLTS                                           # (2) <<<< DIFFERENCE: Variable names changed.
-DRY_VOLTS = calibration.MAX_VOLTS
+WET_VOLTS = calibration.MAX_VOLTS                                           # (2) <<<< DIFFERENCE: Variable names changed.
+DRY_VOLTS = calibration.MIN_VOLTS
 
 # Votage reading (and buffer) where we set
 # global variable triggered = True or False
-TRIGGER_VOLTS = WET_VOLTS  * 1.25                                           # (3) <<<< DIFFERENCE: we have a different trigger voltage.
+TRIGGER_VOLTS = WET_VOLTS - ((WET_VOLTS - DRY_VOLTS) / 2)                                        # (3) <<<< DIFFERENCE: we have a different trigger voltage.
 TRIGGER_BUFFER = 0.25                                                       # (4)
 
 
@@ -45,7 +45,7 @@ analog_channel = AnalogIn(ads, ADS.P0)  #ADS.P0 --> A0
 
 # "triggered" is set to True or False as the voltage
 # read by the ADS1115 passes over it's
-# TRIGGER_VOLTS (+/- TRIGGER_VOLTS) thresholds.
+# TRIGGER_VOLTS (+/- TRIGGER_BUFFER) thresholds.
 triggered = False                                                           # (5)
 
 def update_trigger(volts):
@@ -56,9 +56,9 @@ def update_trigger(volts):
     """
     global triggered
 
-    if triggered and volts > TRIGGER_VOLTS + TRIGGER_BUFFER:                # <<<< DIFFERENCE: test condition reversed compaired to LDR example,
+    if triggered and volts < TRIGGER_VOLTS - TRIGGER_BUFFER:                # <<<< DIFFERENCE: test condition reversed compaired to LDR example,
         triggered = False                                                   # <<<< DIFFERENCE: this is so we "trigger" when the probes are "wet".
-    elif not triggered and volts < TRIGGER_VOLTS - TRIGGER_BUFFER:
+    elif not triggered and volts > TRIGGER_VOLTS + TRIGGER_BUFFER:
         triggered = True
 
 

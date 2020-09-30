@@ -29,12 +29,12 @@ pi.write(LED_GPIO, pigpio.LOW)
 
 # Voltage readings from ADS1115 when
 # LDR is in the Dark and in the Light
-LIGHT_VOLTS = calibration.MIN_VOLTS                                   # (2)
-DARK_VOLTS = calibration.MAX_VOLTS
+LIGHT_VOLTS = calibration.MAX_VOLTS                                   # (2)
+DARK_VOLTS = calibration.MIN_VOLTS
 
 # Votage reading (and buffer) where we set
 # global variable triggered = True or False
-TRIGGER_VOLTS = (DARK_VOLTS - LIGHT_VOLTS) / 3                        # (3)
+TRIGGER_VOLTS = LIGHT_VOLTS - ((LIGHT_VOLTS - DARK_VOLTS) / 2)                       # (3)
 TRIGGER_BUFFER = 0.25                                                 # (4)
 
 
@@ -45,7 +45,7 @@ analog_channel = AnalogIn(ads, ADS.P0)  #ADS.P0 --> A0
 
 # "triggered" is set to True or False as the voltage
 # read by the ADS1115 passes over it's
-# TRIGGER_VOLTS (+/- TRIGGER_VOLTS) thresholds.
+# TRIGGER_VOLTS (+/- TRIGGER_BUFFER) thresholds.
 triggered = False                                                     # (5)
 
 def update_trigger(volts):
@@ -56,9 +56,9 @@ def update_trigger(volts):
     """
     global triggered
 
-    if triggered and volts < TRIGGER_VOLTS - TRIGGER_BUFFER:
+    if triggered and volts > TRIGGER_VOLTS + TRIGGER_BUFFER:
         triggered = False
-    elif not triggered and volts > TRIGGER_VOLTS + TRIGGER_BUFFER:
+    elif not triggered and volts < TRIGGER_VOLTS - TRIGGER_BUFFER:
         triggered = True
 
 

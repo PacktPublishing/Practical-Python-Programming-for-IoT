@@ -56,11 +56,11 @@ if __name__ == '__main__':
     try:
         input("Dry probe and press Enter")
         print("Please wait...\n")
-        max_volts = sample(SAMPLES)
+        min_volts = sample(SAMPLES)
 
         input("Wet probe and press Enter")
         print("Please wait...\n")
-        min_volts = sample(SAMPLES)
+        max_volts = sample(SAMPLES)
 
         output += "# Voltage range is {:0.4f}\n".format(max_volts - min_volts)
         output += ("MIN_VOLTS = {:0.4f}\n".format(min_volts))

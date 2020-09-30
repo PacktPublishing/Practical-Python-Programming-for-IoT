@@ -54,11 +54,11 @@ if __name__ == '__main__':
     max_volts = 0
 
     try:
-        input("Place LDR in the dark and press Enter")
+        input("Place LDR in the light and press Enter")
         print("Please wait...\n")
         max_volts = sample(SAMPLES)
 
-        input("Place LDR in light and press Enter")
+        input("Place LDR in dark and press Enter")
         print("Please wait...\n")
         min_volts = sample(SAMPLES)
 
