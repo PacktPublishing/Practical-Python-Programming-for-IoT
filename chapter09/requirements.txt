@@ -4,6 +4,7 @@ adafruit-circuitpython-busdevice==4.0.0
 Adafruit-PlatformDetect==2.17.0
 Adafruit-PureIO==1.1.5
 pigpio==1.44
+pigpio-dht==0.3.6
 pkg-resources==0.0.0
 pyftdi==0.52.0
 pyserial==3.4
