@@ -22,8 +22,8 @@ logger = logging.getLogger()
 GPIO = 24                                                                                      # (1)
 
 # Configure DHT sensor - Uncomment appropiate line based on the sensor you have.
-#dht = DHT11(GPIO, use_internal_pullup=True, timeout_secs=0.5)                                 # (2)
-dht = DHT22(GPIO, use_internal_pullup=True, timeout_secs=0.5)
+dht = DHT11(GPIO, use_internal_pullup=True, timeout_secs=0.5)                                 # (2)
+#dht = DHT22(GPIO, use_internal_pullup=True, timeout_secs=0.5)
 
 # How often we check the temperature
 POLL_INTERVAL_SECS = 60*10  # 10 Minutes
