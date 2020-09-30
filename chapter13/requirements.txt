@@ -1,5 +1,7 @@
 certifi==2019.11.28
 chardet==3.0.4
+colorzero==1.1
+gpiozero==1.5.1
 idna==2.8
 paho-mqtt==1.5.0
 pigpio==1.45
