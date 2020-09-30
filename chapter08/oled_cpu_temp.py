@@ -109,8 +109,9 @@ try:
         text = "{}\u00b0{}".format(current_temp[0], current_temp[1])  # Eg 43'C
 
         # For a list of fonts available run the command "fc-list" in a terminal.
-        # If font is failing then set font=None to use a default fallback font.
-        font = ImageFont.truetype(font="Lato-Semibold.ttf", size=20)          # (16)
+
+        font = None # Use a default font.                                     # (16)
+        # font = ImageFont.truetype(font="Lato-Semibold.ttf", size=20)
 
         text_size = draw.textsize(text, font=font)                            # (17)
         text_x_offset = +15
