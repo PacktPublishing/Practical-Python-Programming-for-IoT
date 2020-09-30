@@ -37,7 +37,6 @@ DARK_VOLTS = calibration.MIN_VOLTS
 TRIGGER_VOLTS = LIGHT_VOLTS - ((LIGHT_VOLTS - DARK_VOLTS) / 2)        # (3)
 TRIGGER_BUFFER = 0.25                                                 # (4)
 
-
 # Create the I2C bus & ADS object.
 i2c = busio.I2C(board.SCL, board.SDA)
 ads = ADS.ADS1115(i2c)

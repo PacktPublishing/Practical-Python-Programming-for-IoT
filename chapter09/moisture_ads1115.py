@@ -34,7 +34,7 @@ DRY_VOLTS = calibration.MIN_VOLTS
 
 # Votage reading (and buffer) where we set
 # global variable triggered = True or False
-TRIGGER_VOLTS = WET_VOLTS - ((WET_VOLTS - DRY_VOLTS) / 2)                                        # (3) <<<< DIFFERENCE: we have a different trigger voltage.
+TRIGGER_VOLTS = WET_VOLTS - ((WET_VOLTS - DRY_VOLTS) / 2)                   # (3) <<<< DIFFERENCE: Variable names changed.
 TRIGGER_BUFFER = 0.25                                                       # (4)
 
 
@@ -57,7 +57,7 @@ def update_trigger(volts):
     global triggered
 
     if triggered and volts < TRIGGER_VOLTS - TRIGGER_BUFFER:                # <<<< DIFFERENCE: test condition reversed compaired to LDR example,
-        triggered = False                                                   # <<<< DIFFERENCE: this is so we "trigger" when the probes are "wet".
+        triggered = False                                                   # <<<< DIFFERENCE: this is so we "trigger" when the probe is wet.
     elif not triggered and volts > TRIGGER_VOLTS + TRIGGER_BUFFER:
         triggered = True
 
