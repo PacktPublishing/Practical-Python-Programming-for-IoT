@@ -34,7 +34,7 @@ DARK_VOLTS = calibration.MIN_VOLTS
 
 # Votage reading (and buffer) where we set
 # global variable triggered = True or False
-TRIGGER_VOLTS = LIGHT_VOLTS - ((LIGHT_VOLTS - DARK_VOLTS) / 2)                       # (3)
+TRIGGER_VOLTS = LIGHT_VOLTS - ((LIGHT_VOLTS - DARK_VOLTS) / 2)        # (3)
 TRIGGER_BUFFER = 0.25                                                 # (4)
 
 
