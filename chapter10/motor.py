@@ -35,7 +35,7 @@ if __name__ == '__main__':
         motor_A.set_speed(50)                                   # (5)
         motor_A.right()
         motor_B.set_speed(50)    
-        motor_A.right()
+        motor_B.right()
         sleep(2)
 
         print("Motor A Speed 100")
