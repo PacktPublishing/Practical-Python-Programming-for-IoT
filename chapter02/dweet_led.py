@@ -95,7 +95,7 @@ def poll_dweets_forever(delay_secs=2):
         if dweet is not None:
             process_dweet(dweet)                                                   # (12)
 
-    sleep(delay_secs)                                                              # (13)
+        sleep(delay_secs)                                                          # (13)
 
 
 def stream_dweets_forever():
