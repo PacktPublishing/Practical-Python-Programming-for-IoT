@@ -2,6 +2,8 @@
 
 The code in this repository accompanies the Packt Book Practical Python Programming for IoT, published by Packt.
 
+## [Errata](errata) - Corrections and clarifications to the published content
+
 ## [Chapter 1](chapter01) - Setting Up Your Development Environment
 
 ## [Chapter 2](chapter02) - Introduction to Python and IoT
