@@ -2,8 +2,6 @@
 
 This page contains corrections and clarifications to the content found in the published book.
 
-All code corrections listed on this page have been corrected in this repository.
-
 ## Chapter 2
 
 ### Page 43 - Breadboard Examples
