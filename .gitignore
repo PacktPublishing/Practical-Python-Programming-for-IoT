@@ -1,7 +1,10 @@
 venv*
+_gs*
 __pycache__
 .idea
 .AppleDouble
 .DS_Store
 *.log
 .mypy_cache
+*.code-workspace
+sync.sh
