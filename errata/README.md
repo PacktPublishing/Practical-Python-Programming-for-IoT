@@ -34,6 +34,16 @@ This code change has been applied to the file [chapter02/button_pigpio.py](../ch
 
 ---
 
+## Chapter 2 - Button pressed handler
+
+Page 68 printed 1st edition; Page 66 PDF 1st edition.
+
+![Code Example](./Chapter2d.png)
+
+
+
+---
+
 ## Chapter 2 - poll_dweets_forever() method
 
 Page 74 printed 1st edition; Page 72 PDF 1st edition.
