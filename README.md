@@ -2,6 +2,24 @@
 
 The code in this repository accompanies the Packt Book Practical Python Programming for IoT, published by Packt.
 
+![Practical Python Programming for IoT Book Cover](./BookCover.png)
+
+[Table of Contents (PDF)](./TableOfContents1stEd.pdf)
+
+--- 
+
+## Purchasing Practical Python Programming for IoT
+
+Practical Python Programming for IoT is available through Packt and Amazon.
+
+* [Amazon US](https://www.amazon.com/Practical-Python-Programming-IoT-WebSockets/dp/1838982469/ref=sr_1_1)
+* [Amazon AU](https://www.amazon.com.au/Practical-Python-Programming-IoT-WebSockets-ebook/dp/B08K3MD5Z1)
+* [Packt](https://www.packtpub.com/product/practical-python-programming-for-iot/9781838982461)
+
+--- 
+
+## Repository Contents
+
 ## [Errata](errata) - Corrections and clarifications to the published content
 
 ## [Chapter 1](chapter01) - Setting Up Your Development Environment

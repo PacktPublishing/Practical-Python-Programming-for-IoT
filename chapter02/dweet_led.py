@@ -32,7 +32,7 @@ led = None                          # GPIOZero LED instance
 # Initialize Logging
 logging.basicConfig(level=logging.WARNING)  # Global logging configuration
 logger = logging.getLogger('main')  # Logger for this module
-logger.setLevel(logging.INFO) # Debugging for this file.                           # (2)
+logger.setLevel(logging.INFO)  # Debugging for this file.                           # (2)
 
 
 # Initialize GPIO
@@ -72,7 +72,7 @@ def get_latest_dweet():
     r = requests.get(resource)                                                     # (7)
 
     if r.status_code == 200:                                                       # (8)
-        dweet = r.json() # return a Python dict.
+        dweet = r.json()  # return a Python dict.
         logger.debug('Last dweet for thing was %s', dweet)
 
         dweet_content = None
@@ -95,7 +95,7 @@ def poll_dweets_forever(delay_secs=2):
         if dweet is not None:
             process_dweet(dweet)                                                   # (12)
 
-        sleep(delay_secs)                                                          # (13)
+            sleep(delay_secs)                                                      # (13)
 
 
 def stream_dweets_forever():
@@ -106,7 +106,7 @@ def stream_dweets_forever():
     session = requests.Session()
     request = requests.Request("GET", resource).prepare()
 
-    while True: # while True to reconnect on any disconnections.
+    while True:  # while True to reconnect on any disconnections.
         try:
             response = session.send(request, stream=True, timeout=1000)
 
@@ -115,7 +115,7 @@ def stream_dweets_forever():
                     try:
                         json_str = line.splitlines()[1]
                         json_str = json_str.decode('utf-8')
-                        dweet = json.loads(eval(json_str)) # json_str is a string in a string.
+                        dweet = json.loads(eval(json_str))  # json_str is a string in a string.
                         logger.debug('Received a streamed dweet %s', dweet)
 
                         dweet_content = dweet['content']
@@ -125,7 +125,7 @@ def stream_dweets_forever():
                         logger.error('Failed to process and parse dweet json string %s', json_str)
 
         except requests.exceptions.RequestException as e:
-            #Lost connection. The While loop will reconnect.
+            # Lost connection. The While loop will reconnect.
             #logger.error(e, exc_info=True)
             pass
 
@@ -143,13 +143,13 @@ def process_dweet(dweet):
     led_state = dweet['state']
 
     if led_state == last_led_state:                                                # (14)
-        return; # LED is already in requested state.
+        return  # LED is already in requested state.
 
     if led_state == 'on':                                                          # (15)
         led.on()
     elif led_state == 'blink':
         led.blink()
-    else: # Off, including any unhandled state.
+    else:  # Off, including any unhandled state.
         led_state = 'off'
         led.off()
 
@@ -189,6 +189,6 @@ if __name__ == '__main__':
         process_dweet(last_dweet)
 
     print('Waiting for dweets. Press Control+C to exit.')
-    #Only use one of the following. See notes later in Chapter.
-    #stream_dweets_forever() # Stream dweets real-time.
-    poll_dweets_forever() # Get dweets by polling a URL on a schedule.             # (19)
+    # Only use one of the following. See notes later in Chapter.
+    # stream_dweets_forever() # Stream dweets real-time.
+    poll_dweets_forever()  # Get dweets by polling a URL on a schedule.            # (19)

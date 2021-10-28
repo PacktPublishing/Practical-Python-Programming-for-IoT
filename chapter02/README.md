@@ -2,6 +2,8 @@
 
 ## Chapter 2 - Introduction to Python and IoT
 
+Please see [Errata](../errata/README.md) for corrections and clarifications to the content and code found in the published book.
+
 * `requirements.txt` - Python dependencies required for this chapter
 
 * `led_gpiozero.py` - Flashing a LED using GPIOZero

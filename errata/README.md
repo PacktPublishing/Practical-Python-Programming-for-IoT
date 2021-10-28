@@ -2,38 +2,25 @@
 
 This page contains corrections and clarifications to the content found in the published book.
 
-## Chapter 2
+## Chapter 2 - Understanding the breadboard
 
-### Page 43 - Breadboard Examples
+Page 44 printed 1st edition; Page 42 PDF 1st edition.
 
-**Incorrect Text**
+![Code Example](./Chapter2a.jpg)
 
-The 3rd bullet point reads _"A2 is not electrically connected to B2 (they don't share the same row)."_. This statement is incorrect because A2 _is_ electrically connected to B2 because they do share the same row.
+---
 
-**Corrected Text**
+## Chapter 2 - Responding to a button press with PiGPIO
 
-The 3rd bullet point should be _"A2 is not electrically connected to **A3** (they don't share the same row)."_.
+Page 67 printed 1st edition; Page 65 PDF 1st edition.
 
+![Code Example](./Chapter2c.png)
 
-### Page 72 - poll_dweets_forever() function
-
-There is a 4 space indentation missing in the code example for the function `poll_dweets_forever()` at line 13. The effect of this means the statement `sleep(delay_secs)` is outside the `while` block and the loop never incurs the delay. 
-
-This error does not affect a readers ability to successfully run the example, but it does make the following paragraph describing line 13 practically incorrect as the code does not incur the 2-second delay mentioned.
-
-The following image illustrates the issue.
-
-![Code Example](./Chapter2Page72.png)
-
-### Page 64 - Responding to a button press with PiGPIO
-
-Under the heading **Button pin configuration**, we see a snippet of code from the file `chapter02/button_gpiozero.py`
+Under the sub heading **Button pin configuration**, we see a snippet of code from the file [chapter02/button_pigpio.py](../chapter02/button_pigpio.py)
 
 At line 3 `set_glitch_filter` has the parameter 10000, which is the debounce time measured in __microseconds__.
 
 The proceeding paragraph states the value is in __milliseconds__, which is incorrect.
-
-![Code Example](./Chapter2Page65.png)
 
 In this example, the timeout is therefore 10000 / 1000000 = 0.01 seconds
 
@@ -43,4 +30,35 @@ This difference in timing value is not expected to affect the reader's ability t
 pi.set_glitch_filter(BUTTON_GPIO_PIN, 100000)         # (3)
 ```
 
-Also note that earlier in the chapter on Page 63, we see a code example from file `chapter02/button_gpiozero.py` using a debounce time of 0.1 seconds. The error on Page 64 and in file `chapter02/button_gpiozero.py` mean that the GPIOZero and PiGPIO examples are not strictly identical, although from an illustrative perspective for the purposes of the chapter they can be considered functionally identical.
+This code change has been applied to the file [chapter02/button_pigpio.py](../chapter02/button_pigpio.py) in this repository.
+
+---
+
+## Chapter 2 - poll_dweets_forever() method
+
+Page 74 printed 1st edition; Page 72 PDF 1st edition.
+
+![Code Example](./Chapter2b.png)
+
+
+Under the heading **poll_dweets_forever() method**, we see a snippet of code from the file [chapter02/dweet_led.py](../chapter02/dweet_led.py)
+
+There is a 4 space indentation missing in the code example for the function `poll_dweets_forever()` at line 13. The effect of this means the statement `sleep(delay_secs)` is outside the `while` block and the loop never incurs the delay. 
+
+This error does not affect a readers ability to successfully run the example, but it does make the paragraph (as pictured above) practically incorrect as the code does not incur the 2-second delay at line 13.
+
+The corrected block of code is:
+
+```
+def poll_dweets_forever(delay_secs=2):
+    """Poll dweet.io for dweets about our thing."""
+    while True:
+        dweet = get_latest_dweet()                 # (11)
+        if dweet is not None:
+            process_dweet(dweet)                   # (12)
+
+            sleep(delay_secs)                      # (13)
+```
+
+
+This code correction has been applied to the file [chapter02/dweet_led.py](../chapter02/dweet_led.py) in this repository.
