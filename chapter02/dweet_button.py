@@ -12,7 +12,7 @@ Built and tested with Python 3.7 on Raspberry Pi 4 Model B
 import signal
 import requests
 import logging
-from gpiozero import Device, Button
+from gpiozero import Device, Button, LED
 from gpiozero.pins.pigpio import PiGPIOFactory
 
 # Initialize Logging
@@ -24,9 +24,13 @@ logger.setLevel(logging.INFO)
 Device.pin_factory = PiGPIOFactory()
 
 BUTTON_GPIO_PIN = 23
+LED_GPIO_PIN = 21
 button = None
 LED_STATES = ['off', 'on', 'blink']
+
 current_led_state = 0 # off
+led = LED(LED_GPIO_PIN)
+led.off()
 
 # Make sure thing_name matches the "dweet_led thing" you want to control.
 thing_name = '**** ADD YOUR THING NAME HERE ****'
@@ -43,12 +47,20 @@ def init_button():
 def button_pressed():
     """Button pressed handler"""
     cycle_led_state()
+    
 
 
 def cycle_led_state():
     """Send revolving dweet to change LED from off -> on -> blink -> off -> ..."""
     global current_led_state
     current_led_state += 1
+    
+    if current_led_state %3 == 1 :
+        led.on()
+    elif current_led_state %3 ==2 :
+        led.blink()
+    elif current_led_state %3 ==0:
+        led.off()
 
     if current_led_state >= len(LED_STATES):
         current_led_state = 0
