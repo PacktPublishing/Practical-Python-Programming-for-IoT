@@ -50,3 +50,7 @@ Practical Python Programming for IoT is available through Packt and Amazon.
 
 ## [Chapter 14](chapter14) - Tying it Altogether - An IoT Christmas Tree
 
+### Download a free PDF
+
+ <i>If you have already purchased a print or Kindle version of this book, you can get a DRM-free PDF version at no cost.<br>Simply click on the link to claim your free PDF.</i>
+<p align="center"> <a href="https://packt.link/free-ebook/9781838982461">https://packt.link/free-ebook/9781838982461 </a> </p>
