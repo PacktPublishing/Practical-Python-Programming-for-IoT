@@ -18,7 +18,7 @@ SERVO_GPIO = 21
 # Be gradual when changing the left and right adjustments
 # because a servo can be damaged if rotated beyond its limits.
 RIGHT_PULSE = 1000  # Smaller values for 'more' right
-LEFT_PULSE = 2500  # Higher values for 'more' left
+LEFT_PULSE  = 2000  # Higher values for 'more' left
 # CENTER_PULSE = 1500  # or calculate as below
 CENTER_PULSE = ((LEFT_PULSE - RIGHT_PULSE) // 2) + RIGHT_PULSE
 
